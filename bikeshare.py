@@ -53,7 +53,7 @@ def get_filters():
         day = "all"
     
     print('-'*40)
-    return city, month, day
+    return city.lower(), month, day
 
 
 def load_data(city, month, day):
@@ -192,18 +192,25 @@ def user_stats(df):
 
     # Display counts of gender
     print("\nWhat is the breakdown of gender?")
-    # print value counts for each user type
-    gender = df['Gender'].value_counts()
+    # print value counts for each gender
+    if 'Gender' in df.columns:
+        gender = df['Gender'].value_counts()
 
-    if gender is None:
-        print("No gender data to share.")
+        if gender is None:
+            print("No gender data to share.")
+        else:
+            print(gender)
     else:
-        print(gender)
+        print("No gender data to share.")
+
 
     # Display earliest, most recent, and most common year of birth
-    print("\nEarliest Year Of Birth:", df['Birth Year'].min())
-    print("\nMost Recent Year Of Birth:", df['Birth Year'].max())
-    print("\nMost Common Year Of Birth:", df['Birth Year'].mode().values[0])
+    if 'Birth Year' in df.columns:
+        print("\nEarliest Year Of Birth:", df['Birth Year'].min())
+        print("\nMost Recent Year Of Birth:", df['Birth Year'].max())
+        print("\nMost Common Year Of Birth:", df['Birth Year'].mode().values[0])
+    else:
+        print("\nNo birth year data to share.")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
